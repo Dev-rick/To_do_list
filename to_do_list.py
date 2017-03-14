@@ -27,7 +27,6 @@ while True:
     status = raw_input("Was the task completed yet? (yes/no)\n>> ")
     if status == "yes":
         donelist.append(task)
-        tododict[donelist[len(donelist)-1]] = True
     elif status == "no" or "NO" or "No":
         todolist.append(task)
         importance = raw_input("Is this task your priority?(yes/no)\n>> ")
