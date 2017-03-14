@@ -27,6 +27,7 @@ while True:
     status = raw_input("Was the task completed yet? (yes/no)\n>> ")
     if status == "yes":
         donelist.append(task)
+        tododict[donelist[len(donelist)-1]] = True #fügt dem dict. diese Liste hinzu und [donlist[len(donelist)-1] beschreibt den Platz an dem sich der Task befindet! weil bei einer Liste greift man per int. auf ein Element zu und bei einem dict per str.! Hier wird das Element der List auf True gestellt!
     elif status == "no" or "NO" or "No":
         todolist.append(task)
         importance = raw_input("Is this task your priority?(yes/no)\n>> ")
