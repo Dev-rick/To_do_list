@@ -1,5 +1,17 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+now = datetime.now()
+
+
+def date(): #Funktion die bei eintippen von date() immer dieses Datum wiedergibt
+    return "%s.%s.%s" % ( now.day, now.month, now.year)
+
+
+
+
+
+
 
 
 class bcolors:
@@ -27,21 +39,22 @@ while True:
     status = raw_input("Was the task completed yet? (yes/no)\n>> ")
     if status == "yes":
         donelist.append(task)
-        tododict[donelist[len(donelist)-1]] = True #fügt dem dict. diese Liste hinzu und [donlist[len(donelist)-1] beschreibt den Platz an dem sich der Task befindet! weil bei einer Liste greift man per int. auf ein Element zu und bei einem dict per str.! Hier wird das Element der List auf True gestellt!
     elif status == "no" or "NO" or "No":
-        todolist.append(task)
         importance = raw_input("Is this task your priority?(yes/no)\n>> ")
+        todolist.append(task) #schreibt den Beitrag hinten dran
+        tododict[task] = False
         if importance == "yes":
-            tododict[todolist[len(todolist)-1]] = True
-        elif importance == "no":
-            tododict[todolist[len(todolist)-1]] = False
-
+            todolist.pop() #löscht den letzten Eintrag
+            todolist.insert(0, task) #setzt den Beitrag an erster Stelle
+            tododict[task] = True #Ich brauche nicht als erstes die Liste anzugeben und dann die Nummer des Eintrags, kann auch direkt task in den dict eingeben und er sucht den Namen im dict und setzt diesen TRue/False
 
     newtask = raw_input("\nWould you like to enter new task? (yes/no)\n>> ")
     if newtask == "yes":
         continue
     elif newtask == "no":
         break
+
+
 
 with open("todo.txt", "w+") as todo_file: # open the TXT file (or create a new one)
 
@@ -50,24 +63,23 @@ with open("todo.txt", "w+") as todo_file: # open the TXT file (or create a new o
     for i in range(len(todolist)):
         t = i + 1
         if tododict[todolist[i]] is True:
-            print bcolors.HEADER + bcolors.BOLD + "%s.%s" % (t, todolist[i]) + bcolors.ENDC
+            print bcolors.HEADER + bcolors.BOLD + "%s.%s %s" % (t, todolist[i], date()) + bcolors.ENDC
 
         elif tododict[todolist[i]] is False:
-            print "%s.%s" % (t, todolist[i])
-        todo_file.write("\n%s. %s" % (t, todolist[i]))# add task into the TXT file
+            print "%s.%s %s" % (t, todolist[i], date())
+        todo_file.write("\n%s.%s %s" % (t, todolist[i], date()))# add task into the TXT file
 
 
     print bcolors.UNDERLINE + "\nCompleted tasks:" + bcolors.ENDC
     todo_file.write("\n\nCompleted tasks:")  # write into the TXT file
     for i in range(len(donelist)):
-        if tododict[donelist[i]] is True:
-            t = i + 1
-            print "%s. %s" %(t, donelist[i])
-            todo_file.write("\n%s.%s" %(t, donelist[i]))  # add task into the TXT file
+        t = i + 1
+        print "%s.%s %s " %(t, donelist[i], date())
+        todo_file.write("\n%s.%s %s" % (t, donelist[i], date()))  # add task into the TXT file
 
-    print bcolors.OKBLUE + "\nYou have already finished %s tasks of %s tasks" % (len(tododict)-len(donelist), len(tododict)) + bcolors.ENDC
+    print bcolors.OKBLUE + "\n\nYou have already finished %s tasks of %s tasks" % (len(donelist), len(todolist)+len(donelist)) + bcolors.ENDC
 
-    todo_file.write("\nYou have already finished %s tasks of %s tasks!" % (len(tododict)-len(donelist), len(tododict)))
+    todo_file.write("\n\nYou have already finished %s tasks of %s tasks!" % (len(donelist), len(todolist)+ len(donelist)))
 
 
 
