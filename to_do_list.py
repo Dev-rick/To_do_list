@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-now = datetime.now()
+
 
 
 def date(): #Funktion die bei eintippen von date() immer dieses Datum wiedergibt
-    return "%s.%s.%s" % ( now.day, now.month, now.year)
+    return "%s:%s:%s / %s.%s.%s" % (now.hour, now.minute, now.second, now.day, now.month, now.year)
 
 
 class bcolors:
@@ -30,18 +30,21 @@ tododict = { }
 while True:
     task = raw_input("\nPlease enter a TODO task: ")
     print "Your task is: " + task + "\n"
+    now = datetime.now()  #Hier wird der Moment definiert in dem die Zeit gespeichert wird.
+    task_date = task + "        " + "("+date()+")"  #Hier wird durch die oben genannte Funktion dieser Variable task_date diese gepeicherte Zeit hinzugefügt
+    #Jedesmal wenn dieses neu durchlaufen wird wird auch eine neue Zeit gespeichert die dann wieder dieser Variablen zugefügt wird.
     status = raw_input("Was the task completed yet? (yes/no)\n>> ")
     if status == "yes":
-        donelist.append(task)
+        donelist.append(task_date)
     elif status == "no" or "NO" or "No":
         importance = raw_input("Is this task your priority?(yes/no)\n>> ")
-        todolist.append(task) #schreibt den Beitrag hinten dran
-        tododict[task] = False
+        todolist.append(task_date) #schreibt den Beitrag hinten dran
+        tododict[task_date] = False
         if __name__ == '__main__':
             if importance == "yes":
                 todolist.pop() #löscht den letzten Eintrag
-                todolist.insert(0, task) #setzt den Beitrag an erster Stelle
-                tododict[task] = True #Hier shreibe ich in den dict. den Namen des task und gib ihm den bool True!
+                todolist.insert(0, task_date) #setzt den Beitrag an erster Stelle
+                tododict[task_date] = True #Hier shreibe ich in den dict. den Namen des task und gib ihm den bool True!
     #Wenn task nicht in ein dict geschrieben wird würde wenn man ihn printen würde er als True oder False erscheinen!
     #Es existiert also parallel ein dict und eine Liste und der dict enthählt die gleichen Namen die auch in der Liste stehen somit kann ich wenn..
     #ich wissen will ob diser todoEintrag den bool True oder False hat frage ich ihn mit dem gleichen Namen somit kann man in einer for schleife testen..
@@ -62,19 +65,19 @@ with open("todo.txt", "w+") as todo_file: # open the TXT file (or create a new o
     for i in range(len(todolist)):
         t = i + 1
         if tododict[todolist[i]] is True: #Hier ist todolist[i] = den ersten Namen der todoliste!! Somit sucht Python im dict nach diesem Namen!
-            print bcolors.HEADER + bcolors.BOLD + "%s.%s %s" % (t, todolist[i], date()) + bcolors.ENDC
+            print bcolors.HEADER + bcolors.BOLD + "%s.%s" % (t, todolist[i]) + bcolors.ENDC
 
         elif tododict[todolist[i]] is False:
-            print "%s.%s %s" % (t, todolist[i], date())
-        todo_file.write("\n%s.%s %s" % (t, todolist[i], date()))# add task into the TXT file
+            print "%s.%s" % (t, todolist[i])
+        todo_file.write("\n%s.%s" % (t, todolist[i]))# add task into the TXT file
 
 
     print bcolors.UNDERLINE + "\nCompleted tasks:" + bcolors.ENDC
     todo_file.write("\n\nCompleted tasks:")  # write into the TXT file
     for i in range(len(donelist)):
         t = i + 1
-        print "%s.%s %s " %(t, donelist[i], date())
-        todo_file.write("\n%s.%s %s" % (t, donelist[i], date()))  # add task into the TXT file
+        print "%s.%s" %(t, donelist[i])
+        todo_file.write("\n%s.%s" % (t, donelist[i]))  # add task into the TXT file
 
     print bcolors.OKBLUE + "\n\nYou have already finished %s tasks of %s tasks" % (len(donelist), len(todolist)+len(donelist)) + bcolors.ENDC
 
