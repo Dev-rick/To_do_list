@@ -8,12 +8,6 @@ def date(): #Funktion die bei eintippen von date() immer dieses Datum wiedergibt
     return "%s.%s.%s" % ( now.day, now.month, now.year)
 
 
-
-
-
-
-
-
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -43,10 +37,16 @@ while True:
         importance = raw_input("Is this task your priority?(yes/no)\n>> ")
         todolist.append(task) #schreibt den Beitrag hinten dran
         tododict[task] = False
-        if importance == "yes":
-            todolist.pop() #löscht den letzten Eintrag
-            todolist.insert(0, task) #setzt den Beitrag an erster Stelle
-            tododict[task] = True #Ich brauche nicht als erstes die Liste anzugeben und dann die Nummer des Eintrags, kann auch direkt task in den dict eingeben und er sucht den Namen im dict und setzt diesen TRue/False
+        if __name__ == '__main__':
+            if importance == "yes":
+                todolist.pop() #löscht den letzten Eintrag
+                todolist.insert(0, task) #setzt den Beitrag an erster Stelle
+                tododict[task] = True #Hier shreibe ich in den dict. den Namen des task und gib ihm den bool True!
+    #Wenn task nicht in ein dict geschrieben wird würde wenn man ihn printen würde er als True oder False erscheinen!
+    #Es existiert also parallel ein dict und eine Liste und der dict enthählt die gleichen Namen die auch in der Liste stehen somit kann ich wenn..
+    #ich wissen will ob diser todoEintrag den bool True oder False hat frage ich ihn mit dem gleichen Namen somit kann man in einer for schleife testen..
+    #ob ein todoEintrag True oder False ist wen man tododict[todolist[i]] anführt somit wird der Name des ersten Eintrag in der Liste als string gestzt der...
+    #von dem tododict nun gesucht wird und kann somit die Bedingung stellen if ... == True: -->geschieht etwas.
 
     newtask = raw_input("\nWould you like to enter new task? (yes/no)\n>> ")
     if newtask == "yes":
@@ -55,14 +55,13 @@ while True:
         break
 
 
-
 with open("todo.txt", "w+") as todo_file: # open the TXT file (or create a new one)
 
     print bcolors.UNDERLINE + "\nIncompleted tasks:" + bcolors.ENDC
     todo_file.write("\nIncompleted tasks:") # write into the TXT file
     for i in range(len(todolist)):
         t = i + 1
-        if tododict[todolist[i]] is True:
+        if tododict[todolist[i]] is True: #Hier ist todolist[i] = den ersten Namen der todoliste!! Somit sucht Python im dict nach diesem Namen!
             print bcolors.HEADER + bcolors.BOLD + "%s.%s %s" % (t, todolist[i], date()) + bcolors.ENDC
 
         elif tododict[todolist[i]] is False:
