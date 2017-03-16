@@ -40,11 +40,10 @@ while True:
         importance = raw_input("Is this task your priority?(yes/no)\n>> ")
         todolist.append(task_date) #schreibt den Beitrag hinten dran
         tododict[task_date] = False
-        if __name__ == '__main__':
-            if importance == "yes":
-                todolist.pop() #löscht den letzten Eintrag
-                todolist.insert(0, task_date) #setzt den Beitrag an erster Stelle
-                tododict[task_date] = True #Hier shreibe ich in den dict. den Namen des task und gib ihm den bool True!
+        if importance == "yes":
+            todolist.pop() #löscht den letzten Eintrag
+            todolist.insert(0, task_date) #setzt den Beitrag an erster Stelle
+            tododict[task_date] = True #Hier shreibe ich in den dict. den Namen des task und gib ihm den bool True!
     #Wenn task nicht in ein dict geschrieben wird würde wenn man ihn printen würde er als True oder False erscheinen!
     #Es existiert also parallel ein dict und eine Liste und der dict enthählt die gleichen Namen die auch in der Liste stehen somit kann ich wenn..
     #ich wissen will ob diser todoEintrag den bool True oder False hat frage ich ihn mit dem gleichen Namen somit kann man in einer for schleife testen..
