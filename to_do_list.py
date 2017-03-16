@@ -63,10 +63,10 @@ with open("todo.txt", "w+") as todo_file: # open the TXT file (or create a new o
     todo_file.write("\nIncompleted tasks:") # write into the TXT file
     for i in range(len(todolist)):
         t = i + 1
-        if tododict[todolist[i]] is True: #Hier ist todolist[i] = den ersten Namen der todoliste!! Somit sucht Python im dict nach diesem Namen!
+        if tododict[todolist[i]]: #Hier ist todolist[i] = den ersten Namen der todoliste!! Somit sucht Python im dict nach diesem Namen!
             print bcolors.HEADER + bcolors.BOLD + "%s.%s" % (t, todolist[i]) + bcolors.ENDC
 
-        elif tododict[todolist[i]] is False:
+        elif not tododict[todolist[i]]:
             print "%s.%s" % (t, todolist[i])
         todo_file.write("\n%s.%s" % (t, todolist[i]))# add task into the TXT file
 
